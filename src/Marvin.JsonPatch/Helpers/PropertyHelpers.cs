@@ -7,6 +7,7 @@
 
 using Newtonsoft.Json;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Dynamic;
 using System.Linq;
@@ -32,9 +33,18 @@ namespace Marvin.JsonPatch.Helpers
 
             for (int i = startIndex; i < splitPath.Length - 1; i++)
             {
-                var propertyInfoToGet = GetPropertyInfo(targetObject, splitPath[i]
-                    , BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance);
-                targetObject = propertyInfoToGet.GetValue(targetObject, null);
+                if (targetObject is IEnumerable)
+                {
+                    int index = Int32.Parse(splitPath[i].ToString());
+                    IEnumerable<object> targetObjectEnumerable = ((IEnumerable<object>)targetObject);
+                    targetObject = targetObjectEnumerable.ElementAt<object>(index);
+                }
+                else
+                {
+                    var propertyInfoToGet = GetPropertyInfo(targetObject, splitPath[i]
+                        , BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance);
+                    targetObject = propertyInfoToGet.GetValue(targetObject, null);
+                }
             }
 
 
@@ -57,9 +67,18 @@ namespace Marvin.JsonPatch.Helpers
 
             for (int i = startIndex; i < splitPath.Length - 1; i++)
             {
-                var propertyInfoToGet = GetPropertyInfo(targetObject, splitPath[i]
-                    , BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance);
-                targetObject = propertyInfoToGet.GetValue(targetObject, null);
+                if (targetObject is IEnumerable)
+                {
+                    int index = Int32.Parse(splitPath[i].ToString());
+                    IEnumerable<object> targetObjectEnumerable = ((IEnumerable<object>)targetObject);
+                    targetObject = targetObjectEnumerable.ElementAt<object>(index);
+                }
+                else
+                {
+                    var propertyInfoToGet = GetPropertyInfo(targetObject, splitPath[i]
+                        , BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance);
+                    targetObject = propertyInfoToGet.GetValue(targetObject, null);
+                }
             }
 
 
@@ -81,9 +100,16 @@ namespace Marvin.JsonPatch.Helpers
 
                 for (int i = startIndex; i < splitPath.Length - 1; i++)
                 {
-                    var propertyInfoToGet = GetPropertyInfo(targetObject, splitPath[i]
-                        , BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance);
-                    targetObject = propertyInfoToGet.GetValue(targetObject, null);
+                    if (targetObject is IEnumerable)
+                    {
+                        int index = Int32.Parse(splitPath[i].ToString());
+                        IEnumerable<object> targetObjectEnumerable = ((IEnumerable<object>)targetObject);
+                        targetObject = targetObjectEnumerable.ElementAt<object>(index);
+                    } else {
+                        var propertyInfoToGet = GetPropertyInfo(targetObject, splitPath[i]
+                            , BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance);
+                        targetObject = propertyInfoToGet.GetValue(targetObject, null);
+                    }
                 }
 
 
